@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>صالون عبدالله للرجال فرع اكتوبر</title>
+
+<style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:Arial, sans-serif;
+background:linear-gradient(135deg,#000000,#002b80);
+color:white;
+display:flex;
+justify-content:center;
+align-items:center;
+min-height:100vh;
+padding:20px;
+}
+
+.container{
+width:100%;
+max-width:400px;
+background:rgba(0,0,0,0.85);
+padding:25px;
+border-radius:20px;
+box-shadow:0 0 25px #0066ff;
+text-align:center;
+}
+
+h1{
+font-size:20px;
+margin-bottom:10px;
+}
+
+.warning{
+background:rgba(255,0,0,0.1);
+border:1px solid red;
+padding:10px;
+border-radius:10px;
+margin:15px 0;
+color:#ff4d4d;
+font-size:14px;
+}
+
+input, select{
+width:100%;
+padding:12px;
+margin:10px 0;
+border-radius:10px;
+border:none;
+font-size:16px;
+}
+
+button{
+width:100%;
+padding:12px;
+margin-top:10px;
+border:none;
+border-radius:10px;
+background:#0066ff;
+color:white;
+font-size:16px;
+cursor:pointer;
+transition:0.3s;
+}
+
+button:hover{
+background:#3385ff;
+}
+
+.admin-btn{
+background:#111;
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h1>✂️ صالون عبدالله للرجال فرع اكتوبر</h1>
+
+<div class="warning">
+⚠️ في حالة التأخير أكثر من 15 دقيقة بعد موعدك سيتم إلغاء الحجز تلقائيًا.
+</div>
+
+<form method="POST" action="/book">
+
+<input type="text" name="name" placeholder="الاسم" required>
+
+<input type="text" name="phone" placeholder="رقم الموبايل" required>
+
+<select name="time" required>
+<option value="">اختر الموعد</option>
+<option>1:00</option>
+<option>1:30</option>
+<option>2:00</option>
+<option>2:30</option>
+<option>3:00</option>
+<option>3:30</option>
+<option>4:00</option>
+<option>4:30</option>
+<option>5:00</option>
+<option>5:30</option>
+<option>6:00</option>
+<option>6:30</option>
+<option>7:00</option>
+<option>7:30</option>
+<option>8:00</option>
+<option>8:30</option>
+<option>9:00</option>
+<option>9:30</option>
+<option>10:00</option>
+<option>10:30</option>
+<option>11:00</option>
+<option>11:30</option>
+<option>12:00</option>
+</select>
+
+<button type="submit">احجز الآن</button>
+
+</form>
+
+<a href="/login">
+<button class="admin-btn">لوحة الأدمن</button>
+</a>
+
+</div>
+
+</body>
+</html>
