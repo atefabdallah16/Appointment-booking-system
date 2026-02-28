@@ -1,138 +1,67 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>صالون عبدالله للرجال فرع اكتوبر</title>
-
+<title>صالون عبدالله</title>
 <style>
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-font-family:Arial, sans-serif;
-background:linear-gradient(135deg,#000000,#002b80);
-color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-padding:20px;
-}
-
-.container{
-width:100%;
-max-width:400px;
-background:rgba(0,0,0,0.85);
-padding:25px;
-border-radius:20px;
-box-shadow:0 0 25px #0066ff;
-text-align:center;
-}
-
-h1{
-font-size:20px;
-margin-bottom:10px;
-}
-
-.warning{
-background:rgba(255,0,0,0.1);
-border:1px solid red;
-padding:10px;
-border-radius:10px;
-margin:15px 0;
-color:#ff4d4d;
-font-size:14px;
-}
-
-input, select{
-width:100%;
-padding:12px;
-margin:10px 0;
-border-radius:10px;
-border:none;
-font-size:16px;
-}
-
-button{
-width:100%;
-padding:12px;
-margin-top:10px;
-border:none;
-border-radius:10px;
-background:#0066ff;
-color:white;
-font-size:16px;
-cursor:pointer;
-transition:0.3s;
-}
-
-button:hover{
-background:#3385ff;
-}
-
-.admin-btn{
-background:#111;
-margin-top:15px;
-}
+    *{margin:0;padding:0;box-sizing:border-box;font-family:Arial;}
+    body{background:linear-gradient(135deg,#000,#001f4d);color:white;display:flex;justify-content:center;min-height:100vh;padding:20px;}
+    .container{width:100%;max-width:400px;background:rgba(0,0,0,0.9);padding:25px;border-radius:20px;box-shadow:0 0 20px #0066ff;text-align:center;}
+    input, select, button{width:100%;padding:12px;margin:10px 0;border-radius:10px;border:none;font-size:16px;}
+    button{background:#0066ff;color:white;cursor:pointer; font-weight: bold;}
+    .booked-option { color: red !important; }
+    .schedule-btn { background: #111; border: 1px solid #0066ff; margin-top: 10px; }
+    .admin-link-btn { background: transparent; color: #555; font-size: 12px; margin-top: 20px; border: 1px solid #333; width: auto; padding: 5px 10px;}
+    .warning-box {
+        background: rgba(255, 160, 0, 0.15);
+        border: 1px solid #ffa000;
+        border-radius: 10px;
+        padding: 12px;
+        margin: 12px 0;
+        color: #ffd54f;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+    .warning-box span { font-size: 20px; }
 </style>
 </head>
-
 <body>
-
 <div class="container">
+    <h1>✂️ صالون عبدالله للرجال فرع اكتوبر </h1>
+    <p>💻 Developer Atef Abdallah </p>
 
-<h1>✂️ صالون عبدالله للرجال فرع اكتوبر</h1>
+    <div class="warning-box">
+        <span>⚠️</span> تنبيه: إذا تأخرت أكثر من <strong>15 دقيقة</strong> عن موعدك، سيتم إلغاء حجزك تلقائياً وسيصبح الموعد متاحاً للآخرين.
+    </div>
 
-<div class="warning">
-⚠️ في حالة التأخير أكثر من 15 دقيقة بعد موعدك سيتم إلغاء الحجز تلقائيًا.
+    <a href="/public_schedule"><button class="schedule-btn">📅 عرض المواعيد المحجوزة</button></a>
+
+    <form method="POST" action="/book">
+        <input type="text" name="name" placeholder="الاسم" required>
+        <input type="text" name="phone" placeholder="رقم الموبايل" required>
+        
+        <select name="time" required>
+            <option value="">اختر الموعد</option>
+            {% set times = [
+                ('13:00','1:00 م'),('13:30','1:30 م'),('14:00','2:00 م'),('14:30','2:30 م'),
+                ('15:00','3:00 م'),('15:30','3:30 م'),('16:00','4:00 م'),('16:30','4:30 م'),
+                ('17:00','5:00 م'),('17:30','5:30 م'),('18:00','6:00 م'),('18:30','6:30 م'),
+                ('19:00','7:00 م'),('19:30','7:30 م'),('20:00','8:00 م'),('20:30','8:30 م'),
+                ('21:00','9:00 م'),('21:30','9:30 م'),('22:00','10:00 م'),('22:30','10:30 م'),
+                ('23:00','11:00 م'),('23:30','11:30 م')
+            ] %}
+            {% for val, label in times %}
+                {% if val in booked_times %}
+                    <option value="{{val}}" disabled class="booked-option">🔴 {{label}} (محجوز)</option>
+                {% else %}
+                    <option value="{{val}}">🟢 {{label}}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+        <button type="submit">تأكيد الحجز</button>
+    </form>
+    <a href="/login"><button class="admin-link-btn">إدارة النظام (للأدمن)</button></a>
 </div>
-
-<form method="POST" action="/book">
-
-<input type="text" name="name" placeholder="الاسم" required>
-
-<input type="text" name="phone" placeholder="رقم الموبايل" required>
-
-<select name="time" required>
-<option value="">اختر الموعد</option>
-<option>1:00</option>
-<option>1:30</option>
-<option>2:00</option>
-<option>2:30</option>
-<option>3:00</option>
-<option>3:30</option>
-<option>4:00</option>
-<option>4:30</option>
-<option>5:00</option>
-<option>5:30</option>
-<option>6:00</option>
-<option>6:30</option>
-<option>7:00</option>
-<option>7:30</option>
-<option>8:00</option>
-<option>8:30</option>
-<option>9:00</option>
-<option>9:30</option>
-<option>10:00</option>
-<option>10:30</option>
-<option>11:00</option>
-<option>11:30</option>
-<option>12:00</option>
-</select>
-
-<button type="submit">احجز الآن</button>
-
-</form>
-
-<a href="/login">
-<button class="admin-btn">لوحة الأدمن</button>
-</a>
-
-</div>
-
 </body>
 </html>

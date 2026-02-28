@@ -1,119 +1,39 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>لوحة التحكم - صالون عبدالله</title>
-
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #000000, #002b80);
-            color: white;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            text-shadow: 0 0 10px #0066ff;
-        }
-
-        .card {
-            background: rgba(0, 0, 0, 0.85);
-            padding: 20px;
-            margin-bottom: 15px;
-            border-radius: 15px;
-            box-shadow: 0 0 15px #0066ff;
-            border: 1px solid #1a1a1a;
-        }
-
-        .card p {
-            margin-bottom: 8px;
-            font-size: 18px;
-        }
-
-        .status-active {
-            color: #00ff88;
-            font-weight: bold;
-        }
-
-        .status-cancelled {
-            color: #ff4444;
-            font-weight: bold;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 10px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: 0.3s;
-        }
-
-        .delete-btn {
-            background: #ff4444;
-            color: white;
-        }
-
-        .delete-btn:hover {
-            background: #cc0000;
-        }
-
-        .home-btn {
-            background: #0066ff;
-            color: white;
-        }
-
-        .home-btn:hover {
-            background: #0044bb;
-        }
-
-        a {
-            text-decoration: none;
-        }
-    </style>
+<meta charset="UTF-8">
+<title>لوحة التحكم</title>
+<style>
+    body{background:#000; color:white; font-family:Tahoma; padding:20px;}
+    .card{background:rgba(0,0,0,0.85); padding:20px; margin-bottom:15px; border-radius:15px; box-shadow:0 0 15px #0066ff;}
+    .status-active{color:#00ff88; font-weight:bold;}
+    .status-cancelled{color:#ff4444; font-weight:bold;}
+    .status-late{color:#ffa000; font-weight:bold;}
+    button{width:100%; padding:12px; margin-top:10px; border:none; border-radius:10px; cursor:pointer; font-weight:bold;}
+    .delete-btn{background:#ff4444; color:white;}
+    .home-btn{background:#0066ff; color:white;}
+</style>
 </head>
-
 <body>
-
     <h1>لوحة تحكم صالون عبدالله</h1>
-
     {% for b in bookings %}
     <div class="card">
         <p><strong>👤 الاسم:</strong> {{ b[1] }}</p>
         <p><strong>📞 الموبايل:</strong> {{ b[2] }}</p>
-
         <p><strong>📅 التاريخ:</strong> {{ b[3].strftime('%Y-%m-%d') }}</p>
-        <p><strong>⏰ الوقت:</strong> {{ b[3].strftime('%H:%M') }}</p>
-
+        <p><strong>⏰ الوقت:</strong> {{ b[3].strftime('%I:%M %p') }}</p>
         <p><strong>الحالة:</strong>
             {% if b[4] == "active" %}
-                <span class="status-active">نشط</span>
+                <span class="status-active">✅ نشط</span>
+            {% elif b[4] == "late_cancelled" %}
+                <span class="status-late">⏰ ملغي - تأخر عن الموعد</span>
             {% else %}
-                <span class="status-cancelled">ملغي (تأخير 15 دقيقة)</span>
+                <span class="status-cancelled">❌ ملغي</span>
             {% endif %}
         </p>
     </div>
     {% endfor %}
-
-    <a href="/delete_all" onclick="return confirm('هل أنت متأكد من مسح جميع الحجوزات نهائياً؟')">
-        <button class="delete-btn">مسح كل الحجوزات</button>
-    </a>
-
-    <a href="/">
-        <button class="home-btn">الرجوع للرئيسية</button>
-    </a>
-
+    <a href="/delete_all" onclick="return confirm('هل تريد مسح جميع البيانات؟')"><button class="delete-btn">مسح كل الحجوزات</button></a>
+    <a href="/"><button class="home-btn">الرجوع للرئيسية</button></a>
 </body>
 </html>

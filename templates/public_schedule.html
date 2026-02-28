@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>المواعيد المحجوزة</title>
+    <style>
+        body{background:#000; color:white; font-family:Arial; text-align:center; padding:20px;}
+        .slot{background:#111; padding:15px; margin:10px auto; width:90%; max-width:300px; border-radius:10px; border-left:5px solid #0066ff;}
+        .status{color:#00ff88;}
+        a{color:#0066ff; text-decoration:none; font-weight:bold;}
+    </style>
+</head>
+<body>
+    <h1>📅 المواعيد المشغولة اليوم</h1>
+    {% for b in bookings %}
+    <div class="slot">
+        <p>⏰ الوقت: {{ b[0].strftime('%I:%M %p') }}</p>
+        <p class="status">الحالة: محجوز ✅</p>
+    </div>
+    {% else %}
+    <p>لا توجد حجوزات حالياً.</p>
+    {% endfor %}
+    <br>
+    <a href="/">الرجوع لصفحة الحجز</a>
+</body>
+</html>
