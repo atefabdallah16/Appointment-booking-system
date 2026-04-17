@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>لوحة التحكم — صالون عبدالله</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gold: #c9a84c;
+        --gold-light: #e8c97a;
+        --gold-dim: #8a6f2e;
+        --black: #080808;
+        --dark: #111111;
+        --card: #141414;
+        --border: rgba(201,168,76,0.18);
+        --text: #f0ede6;
+        --muted: #6a6560;
+        --active: #1D9E75;
+        --active-bg: rgba(29,158,117,0.1);
+        --late: #c9a84c;
+        --late-bg: rgba(201,168,76,0.1);
+        --cancelled: #c0392b;
+        --cancelled-bg: rgba(192,57,43,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Tajawal', sans-serif;
+        background: var(--black);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 32px 16px;
+        position: relative;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: -300px; right: -300px;
+        width: 700px; height: 700px;
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .wrapper {
+        max-width: 700px;
+        margin: 0 auto;
+        animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 28px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .header-right h1 {
+        font-size: 22px;
+        font-weight: 900;
+        color: var(--gold);
+        margin-bottom: 2px;
+    }
+
+    .header-right p {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 300;
+    }
+
+    .header-icon {
+        font-size: 32px;
+        opacity: 0.8;
+    }
+
+    /* Stats bar */
+    .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    .stat-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 16px;
+        text-align: center;
+    }
+
+    .stat-num {
+        font-size: 26px;
+        font-weight: 900;
+        margin-bottom: 2px;
+    }
+
+    .stat-label {
+        font-size: 11px;
+        color: var(--muted);
+        font-weight: 400;
+        letter-spacing: 0.5px;
+    }
+
+    .stat-active .stat-num { color: var(--active); }
+    .stat-late .stat-num { color: var(--late); }
+    .stat-cancelled .stat-num { color: var(--cancelled); }
+
+    /* Section title */
+    .section-title {
+        font-size: 12px;
+        font-weight: 700;
+        color: var(--muted);
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-bottom: 14px;
+    }
+
+    /* Booking card */
+    .booking-card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 18px 20px;
+        margin-bottom: 12px;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        align-items: center;
+        transition: border-color 0.2s;
+        animation: fadeUp 0.4s ease both;
+    }
+
+    .booking-card:hover {
+        border-color: rgba(201,168,76,0.35);
+    }
+
+    .booking-card.is-active { border-right: 3px solid var(--active); }
+    .booking-card.is-late { border-right: 3px solid var(--late); }
+    .booking-card.is-cancelled { border-right: 3px solid var(--cancelled); opacity: 0.7; }
+
+    .booking-info { display: flex; flex-direction: column; gap: 8px; }
+
+    .booking-name {
+        font-size: 17px;
+        font-weight: 700;
+        color: var(--text);
+    }
+
+    .booking-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+
+    .booking-meta span {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .status-badge {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 20px;
+        white-space: nowrap;
+        letter-spacing: 0.5px;
+    }
+
+    .badge-active {
+        background: var(--active-bg);
+        color: var(--active);
+        border: 1px solid rgba(29,158,117,0.3);
+    }
+
+    .badge-late {
+        background: var(--late-bg);
+        color: var(--late);
+        border: 1px solid rgba(201,168,76,0.3);
+    }
+
+    .badge-cancelled {
+        background: var(--cancelled-bg);
+        color: var(--cancelled);
+        border: 1px solid rgba(192,57,43,0.3);
+    }
+
+    /* Empty state */
+    .empty {
+        text-align: center;
+        padding: 48px 20px;
+        color: var(--muted);
+    }
+
+    .empty-icon { font-size: 40px; margin-bottom: 12px; }
+    .empty p { font-size: 15px; }
+
+    /* Actions */
+    .actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+        margin-top: 28px;
+        padding-top: 20px;
+        border-top: 1px solid var(--border);
+    }
+
+    .btn {
+        padding: 14px;
+        border: none;
+        border-radius: 12px;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: opacity 0.2s, transform 0.15s;
+        text-align: center;
+        display: block;
+        text-decoration: none;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-danger {
+        background: rgba(192,57,43,0.15);
+        color: #e74c3c;
+        border: 1px solid rgba(192,57,43,0.3);
+    }
+
+    .btn-danger:hover { background: rgba(192,57,43,0.25); }
+
+    .btn-home {
+        background: rgba(201,168,76,0.1);
+        color: var(--gold-light);
+        border: 1px solid var(--border);
+    }
+
+    .btn-home:hover { background: rgba(201,168,76,0.18); }
+
+    /* Divider between date groups */
+    .date-group {
+        margin-bottom: 6px;
+        font-size: 12px;
+        color: var(--gold-dim);
+        font-weight: 700;
+        letter-spacing: 1px;
+        margin-top: 18px;
+    }
+    .date-group:first-of-type { margin-top: 0; }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="header">
+        <div class="header-right">
+            <h1>لوحة التحكم</h1>
+            <p>صالون عبدالله — إدارة الحجوزات</p>
+        </div>
+        <div class="header-icon">✂️</div>
+    </div>
+
+    <!-- Stats -->
+    {% set active_count = bookings | selectattr('4', 'equalto', 'active') | list | length %}
+    {% set late_count = bookings | selectattr('4', 'equalto', 'late_cancelled') | list | length %}
+    {% set cancelled_count = bookings | selectattr('4', 'equalto', 'cancelled') | list | length %}
+
+    <div class="stats">
+        <div class="stat-card stat-active">
+            <div class="stat-num">{{ bookings | selectattr('4', 'equalto', 'active') | list | length }}</div>
+            <div class="stat-label">نشط</div>
+        </div>
+        <div class="stat-card stat-late">
+            <div class="stat-num">{{ bookings | selectattr('4', 'equalto', 'late_cancelled') | list | length }}</div>
+            <div class="stat-label">تأخر</div>
+        </div>
+        <div class="stat-card stat-cancelled">
+            <div class="stat-num">{{ bookings | selectattr('4', 'equalto', 'cancelled') | list | length }}</div>
+            <div class="stat-label">ملغي</div>
+        </div>
+    </div>
+
+    <div class="section-title">✦ جميع الحجوزات</div>
+
+    {% if bookings %}
+        {% for b in bookings %}
+        <div class="booking-card {% if b[4] == 'active' %}is-active{% elif b[4] == 'late_cancelled' %}is-late{% else %}is-cancelled{% endif %}"
+             style="animation-delay: {{ loop.index0 * 0.05 }}s">
+            <div class="booking-info">
+                <div class="booking-name">👤 {{ b[1] }}</div>
+                <div class="booking-meta">
+                    <span>📞 {{ b[2] }}</span>
+                    <span>📅 {{ b[3].strftime('%Y-%m-%d') }}</span>
+                    <span>⏰ {{ b[3].strftime('%I:%M %p') }}</span>
+                </div>
+            </div>
+            <div>
+                {% if b[4] == "active" %}
+                    <span class="status-badge badge-active">✅ نشط</span>
+                {% elif b[4] == "late_cancelled" %}
+                    <span class="status-badge badge-late">⏰ تأخر</span>
+                {% else %}
+                    <span class="status-badge badge-cancelled">❌ ملغي</span>
+                {% endif %}
+            </div>
+        </div>
+        {% endfor %}
+    {% else %}
+        <div class="empty">
+            <div class="empty-icon">📭</div>
+            <p>لا توجد حجوزات حتى الآن</p>
+        </div>
+    {% endif %}
+
+    <div class="actions">
+        <a href="/" class="btn btn-home">🏠 الرئيسية</a>
+        <a href="/delete_all" class="btn btn-danger"
+           onclick="return confirm('هل تريد مسح جميع البيانات؟')">🗑️ مسح الكل</a>
+    </div>
+
+</div>
+</body>
+</html>

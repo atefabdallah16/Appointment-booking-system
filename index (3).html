@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+     crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صالون عبدالله</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-light: #e8c97a;
+            --gold-dim: #8a6f2e;
+            --black: #080808;
+            --dark: #111111;
+            --card: #161616;
+            --border: rgba(201,168,76,0.2);
+            --text: #f0ede6;
+            --muted: #7a7570;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--black);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 16px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Decorative background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -200px;
+            right: -200px;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -200px;
+            left: -200px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 420px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.6s ease both;
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(24px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+
+        .scissors-icon {
+            font-size: 36px;
+            display: block;
+            margin-bottom: 8px;
+            animation: spin 8s linear infinite;
+        }
+
+        @keyframes spin {
+            0%, 90% { transform: rotate(0deg); }
+            95% { transform: rotate(15deg); }
+            100% { transform: rotate(0deg); }
+        }
+
+        .salon-name {
+            font-size: 28px;
+            font-weight: 900;
+            letter-spacing: 1px;
+            color: var(--gold);
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+        .salon-sub {
+            font-size: 14px;
+            color: var(--muted);
+            font-weight: 300;
+            letter-spacing: 2px;
+        }
+
+        .gold-line {
+            width: 60px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 14px auto;
+        }
+
+        .developer {
+            font-size: 11px;
+            color: var(--muted);
+            letter-spacing: 1px;
+        }
+
+        /* Warning box */
+        .warning-box {
+            background: rgba(201,168,76,0.06);
+            border: 1px solid rgba(201,168,76,0.25);
+            border-right: 3px solid var(--gold);
+            border-radius: 10px;
+            padding: 14px 16px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            line-height: 1.8;
+            color: #d4c9a8;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .warning-icon {
+            font-size: 20px;
+            flex-shrink: 0;
+            margin-top: 1px;
+        }
+
+        /* Card */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: 2px;
+            margin-bottom: 16px;
+            text-transform: uppercase;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 14px;
+            position: relative;
+        }
+
+        .input-label {
+            font-size: 12px;
+            color: var(--muted);
+            margin-bottom: 6px;
+            display: block;
+            font-weight: 500;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 13px 16px;
+            background: #0d0d0d;
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 10px;
+            color: var(--text);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input::placeholder {
+            color: var(--muted);
+            font-weight: 300;
+        }
+
+        input:focus, select:focus {
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 0 3px rgba(201,168,76,0.08);
+        }
+
+        select option {
+            background: #111;
+            color: var(--text);
+        }
+
+        select option.booked-option {
+            color: #ff6b6b;
+        }
+
+        /* Select arrow */
+        .select-wrapper {
+            position: relative;
+        }
+
+        .select-wrapper::after {
+            content: '▾';
+            position: absolute;
+            left: 14px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gold);
+            font-size: 16px;
+            pointer-events: none;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            border: none;
+            border-radius: 12px;
+            color: #080808;
+            font-family: 'Tajawal', sans-serif;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: opacity 0.2s, transform 0.15s;
+            margin-top: 6px;
+        }
+
+        .btn-primary:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-secondary {
+            width: 100%;
+            padding: 13px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--gold-light);
+            font-family: 'Tajawal', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            cursor: pointer;
+            letter-spacing: 1px;
+            transition: background 0.2s, border-color 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(201,168,76,0.07);
+            border-color: rgba(201,168,76,0.4);
+        }
+
+        .admin-link {
+            display: block;
+            text-align: center;
+            margin-top: 24px;
+            font-size: 12px;
+            color: #2a2a2a;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .admin-link:hover {
+            color: #444;
+        }
+
+        /* Divider */
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 16px 0;
+            color: var(--muted);
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .divider::before, .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="header">
+        <span class="scissors-icon">✂️</span>
+        <h1 class="salon-name">صالون عبدالله</h1>
+        <div class="salon-sub">فرع أكتوبر — للرجال</div>
+        <div class="gold-line"></div>
+        <div class="developer">💻 Developer: Atef Abdallah</div>
+    </div>
+
+
+    <div class="warning-box">
+        <span class="warning-icon">⚠️</span>
+        <div>
+            <span style="color: #ff4444;">إذا تأخرت عن موعدك، سيتم إلغاء حجزك تلقائياً وسيصبح الموعد متاحاً للآخرين.</span>
+        </div>
+    </div>
+
+    <a href="/public_schedule" class="btn-secondary" style="margin-bottom: 16px; display: flex; padding:13px;">
+        📅 عرض المواعيد المحجوزة
+    </a>
+
+    <div class="card">
+        <div class="card-title">✦ حجز موعد</div>
+
+        <form method="POST" action="/book">
+            <div class="input-group">
+                <label class="input-label">الاسم الكامل</label>
+                <input type="text" name="name" placeholder="أدخل اسمك" required>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">رقم الموبايل</label>
+                <input type="text" name="phone" placeholder="01XXXXXXXXX" required>
+            </div>
+
+            <div class="input-group">
+                <label class="input-label">اختر الموعد</label>
+                <div class="select-wrapper">
+                    <select name="time" required>
+                        <option value="">— اختر الوقت المناسب —</option>
+                        {% set times = [
+                            ('13:00','1:00 م'),('13:15','1:15 م'),('13:30','1:30 م'),('13:45','1:45 م'),
+                            ('14:00','2:00 م'),('14:15','2:15 م'),('14:30','2:30 م'),('14:45','2:45 م'),
+                            ('15:00','3:00 م'),('15:15','3:15 م'),('15:30','3:30 م'),('15:45','3:45 م'),
+                            ('16:00','4:00 م'),('16:15','4:15 م'),('16:30','4:30 م'),('16:45','4:45 م'),
+                            ('17:00','5:00 م'),('17:15','5:15 م'),('17:30','5:30 م'),('17:45','5:45 م'),
+                            ('18:00','6:00 م'),('18:15','6:15 م'),('18:30','6:30 م'),('18:45','6:45 م'),
+                            ('19:00','7:00 م'),('19:15','7:15 م'),('19:30','7:30 م'),('19:45','7:45 م'),
+                            ('20:00','8:00 م'),('20:15','8:15 م'),('20:30','8:30 م'),('20:45','8:45 م'),
+                            ('21:00','9:00 م'),('21:15','9:15 م'),('21:30','9:30 م'),('21:45','9:45 م'),
+                            ('22:00','10:00 م'),('22:15','10:15 م'),('22:30','10:30 م'),('22:45','10:45 م'),
+                            ('23:00','11:00 م'),('23:15','11:15 م'),('23:30','11:30 م'),('23:45','11:45 م')
+                        ] %}
+                        {% for val, label in times %}
+                            {% if val in booked_times %}
+                                <option value="{{val}}" disabled class="booked-option">🔴 {{label}} — محجوز</option>
+                            {% else %}
+                                <option value="{{val}}">🟢 {{label}}</option>
+                            {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn-primary">تأكيد الحجز ←</button>
+        </form>
+    </div>
+
+    <a href="/login" class="admin-link">إدارة النظام — للأدمن فقط</a>
+</div>
+</body>
+</html>

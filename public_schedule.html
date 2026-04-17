@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المواعيد المحجوزة — صالون عبدالله</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gold: #c9a84c;
+        --gold-light: #e8c97a;
+        --gold-dim: #8a6f2e;
+        --black: #080808;
+        --card: #141414;
+        --border: rgba(201,168,76,0.18);
+        --text: #f0ede6;
+        --muted: #6a6560;
+        --active: #1D9E75;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Tajawal', sans-serif;
+        background: var(--black);
+        color: var(--text);
+        min-height: 100vh;
+        padding: 36px 16px;
+        position: relative;
+        overflow-x: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: -200px; right: -200px;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(201,168,76,0.05) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .wrapper {
+        max-width: 420px;
+        margin: 0 auto;
+        animation: fadeUp 0.5s ease both;
+    }
+
+    @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Header */
+    .header {
+        text-align: center;
+        margin-bottom: 28px;
+    }
+
+    .header-icon { font-size: 32px; margin-bottom: 8px; display: block; }
+
+    .header h1 {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--gold);
+        margin-bottom: 4px;
+    }
+
+    .header p {
+        font-size: 13px;
+        color: var(--muted);
+        font-weight: 300;
+    }
+
+    .gold-line {
+        width: 50px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 14px auto 0;
+    }
+
+    /* Counter */
+    .counter {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        padding: 14px 20px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 20px;
+        font-size: 14px;
+        color: var(--muted);
+    }
+
+    .counter-num {
+        font-size: 22px;
+        font-weight: 900;
+        color: var(--gold);
+    }
+
+    /* Slot */
+    .slot {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-right: 3px solid var(--active);
+        border-radius: 12px;
+        padding: 16px 20px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        animation: fadeUp 0.4s ease both;
+        transition: border-color 0.2s;
+    }
+
+    .slot:hover { border-color: rgba(29,158,117,0.5); }
+
+    .slot-time {
+        font-size: 20px;
+        font-weight: 900;
+        color: var(--text);
+        letter-spacing: 1px;
+    }
+
+    .slot-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 2px;
+        font-weight: 300;
+    }
+
+    .slot-badge {
+        background: rgba(29,158,117,0.1);
+        border: 1px solid rgba(29,158,117,0.3);
+        color: var(--active);
+        font-size: 12px;
+        font-weight: 700;
+        padding: 5px 12px;
+        border-radius: 20px;
+    }
+
+    /* Empty */
+    .empty {
+        text-align: center;
+        padding: 56px 20px;
+        color: var(--muted);
+    }
+
+    .empty-icon { font-size: 44px; margin-bottom: 14px; }
+    .empty h3 { font-size: 18px; font-weight: 700; margin-bottom: 6px; color: var(--text); }
+    .empty p { font-size: 14px; font-weight: 300; }
+
+    /* Back button */
+    .btn {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: transparent;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: var(--gold-light);
+        font-family: 'Tajawal', sans-serif;
+        font-size: 15px;
+        font-weight: 700;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        margin-top: 24px;
+        transition: background 0.2s, border-color 0.2s;
+    }
+
+    .btn:hover {
+        background: rgba(201,168,76,0.07);
+        border-color: rgba(201,168,76,0.4);
+    }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+    <div class="header">
+        <span class="header-icon">📅</span>
+        <h1>المواعيد المشغولة</h1>
+        <p>الحجوزات النشطة لهذا اليوم</p>
+        <div class="gold-line"></div>
+    </div>
+
+    {% if bookings %}
+        <div class="counter">
+            <span>إجمالي المواعيد المحجوزة</span>
+            <span class="counter-num">{{ bookings | length }}</span>
+        </div>
+
+        {% for b in bookings %}
+        <div class="slot" style="animation-delay: {{ loop.index0 * 0.06 }}s">
+            <div>
+                <div class="slot-time">⏰ {{ b[0].strftime('%I:%M %p') }}</div>
+                <div class="slot-label">{{ b[0].strftime('%Y-%m-%d') }}</div>
+            </div>
+            <span class="slot-badge">✅ محجوز</span>
+        </div>
+        {% endfor %}
+
+    {% else %}
+        <div class="empty">
+            <div class="empty-icon">📭</div>
+            <h3>لا توجد حجوزات</h3>
+            <p>لا توجد مواعيد محجوزة حالياً</p>
+        </div>
+    {% endif %}
+
+    <a href="/" class="btn">← الرجوع لصفحة الحجز</a>
+
+</div>
+</body>
+</html>

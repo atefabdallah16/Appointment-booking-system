@@ -1,7 +1,7 @@
 import os
 import sqlite3
 from flask import Flask, render_template, request, redirect, session
-from datetime import datetime, timedelta
+from datetime import datetime
 from zoneinfo import ZoneInfo
 
 app = Flask(__name__)
@@ -44,7 +44,7 @@ def cancel_expired():
     for row in rows:
         booking_time = parse_dt(row["booking_datetime"])
         # بعد 15 دقيقة من وقت الحجز يتلغى تلقائياً
-        if now > booking_time + timedelta(minutes=15):
+        if now > booking_time:
             cur.execute("UPDATE bookings SET status='late_cancelled' WHERE id=?", (row["id"],))
     conn.commit()
     conn.close()
@@ -109,7 +109,7 @@ def public_schedule():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":
-        if request.form["password"] == "101010":
+        if request.form["password"] == "abdallah404":
             session["admin"] = True
             return redirect("/admin")
         return "❌ الباسورد خطأ"

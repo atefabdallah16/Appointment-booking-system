@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>خطأ في الحجز — صالون عبدالله</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        --gold: #c9a84c;
+        --gold-light: #e8c97a;
+        --gold-dim: #8a6f2e;
+        --black: #080808;
+        --card: #141414;
+        --border: rgba(201,168,76,0.18);
+        --text: #f0ede6;
+        --muted: #6a6560;
+        --error: #e74c3c;
+        --error-bg: rgba(231,76,60,0.08);
+        --error-border: rgba(231,76,60,0.3);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        font-family: 'Tajawal', sans-serif;
+        background: var(--black);
+        color: var(--text);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: -200px; right: -200px;
+        width: 600px; height: 600px;
+        background: radial-gradient(circle, rgba(231,76,60,0.06) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    body::after {
+        content: '';
+        position: fixed;
+        bottom: -200px; left: -200px;
+        width: 500px; height: 500px;
+        background: radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%);
+        pointer-events: none;
+    }
+
+    .card {
+        background: var(--card);
+        border: 1px solid var(--error-border);
+        border-radius: 24px;
+        padding: 48px 36px;
+        text-align: center;
+        max-width: 380px;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    }
+
+    @keyframes popIn {
+        from { opacity: 0; transform: scale(0.85); }
+        to { opacity: 1; transform: scale(1); }
+    }
+
+    .error-circle {
+        width: 80px;
+        height: 80px;
+        background: var(--error-bg);
+        border: 2px solid var(--error-border);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 24px;
+        font-size: 36px;
+        animation: shake 0.5s ease 0.3s both;
+    }
+
+    @keyframes shake {
+        0%   { transform: scale(0); opacity: 0; }
+        60%  { transform: scale(1.1); opacity: 1; }
+        80%  { transform: scale(0.95) rotate(-5deg); }
+        100% { transform: scale(1) rotate(0deg); }
+    }
+
+    .title {
+        font-size: 24px;
+        font-weight: 900;
+        color: var(--error);
+        margin-bottom: 10px;
+    }
+
+    .subtitle {
+        font-size: 15px;
+        color: var(--muted);
+        font-weight: 300;
+        line-height: 1.8;
+        margin-bottom: 6px;
+    }
+
+    .gold-line {
+        width: 50px;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        margin: 20px auto;
+    }
+
+    /* رسالة الخطأ الديناميكية */
+    .error-message {
+        background: var(--error-bg);
+        border: 1px solid var(--error-border);
+        border-radius: 12px;
+        padding: 14px 18px;
+        font-size: 15px;
+        font-weight: 700;
+        color: #ff6b6b;
+        line-height: 1.7;
+        margin-bottom: 28px;
+    }
+
+    .btn-primary {
+        display: block;
+        width: 100%;
+        padding: 14px;
+        background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+        border: none;
+        border-radius: 12px;
+        color: #080808;
+        font-family: 'Tajawal', sans-serif;
+        font-size: 16px;
+        font-weight: 900;
+        cursor: pointer;
+        text-decoration: none;
+        transition: opacity 0.2s, transform 0.15s;
+        letter-spacing: 0.5px;
+        margin-bottom: 10px;
+    }
+
+    .btn-primary:active { transform: scale(0.97); }
+    .btn-primary:hover { opacity: 0.9; }
+
+    .salon-name {
+        margin-top: 20px;
+        font-size: 12px;
+        color: var(--muted);
+        letter-spacing: 1px;
+    }
+</style>
+</head>
+<body>
+
+<div class="card">
+    <div class="error-circle">❌</div>
+
+    <h2 class="title">تعذّر الحجز</h2>
+    <p class="subtitle">حدث خطأ أثناء معالجة طلبك</p>
+
+    <div class="gold-line"></div>
+
+    <div class="error-message">
+        {{ message }}
+    </div>
+
+    <a href="/" class="btn-primary">← حاول مرة أخرى</a>
+
+    <div class="salon-name">✂️ صالون عبدالله — فرع أكتوبر</div>
+</div>
+
+</body>
+</html>
